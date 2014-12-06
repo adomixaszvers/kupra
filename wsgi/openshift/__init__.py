@@ -1,1 +1,1 @@
-# -*- coding: windows-1257 -*-
+# -*- coding: utf-8 -*-
