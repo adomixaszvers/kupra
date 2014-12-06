@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: windows-1257 -*-
 # Django settings for OpenShift project.
 import imp, os
 
