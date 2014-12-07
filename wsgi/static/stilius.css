@@ -1,0 +1,22 @@
+.main-table {
+    background-color: #E9EAED;
+    width: 100%;
+    height: 100%;
+    text-align: right;
+
+}
+.right {
+    position: absolute;
+    right: 0%;
+    width: 30%;
+    background-color: #E9EAED;
+    text-align: left;
+}
+.kupra {
+	position: absolute;
+    width: 25%;
+	text-align: right;
+	font-size: 25pt;
+	color: #000099;
+
+}
