@@ -10,3 +10,4 @@ build
 kupra.nja
 KuPRA.egg-info
 dist
+wsgi/static
