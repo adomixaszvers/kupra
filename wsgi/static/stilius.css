@@ -6,16 +6,16 @@
 
 }
 .right {
-    position: absolute;
+    /* position: absolute; */
     right: 0%;
     width: 30%;
     background-color: #E9EAED;
-    text-align: left;
+    text-align: right;
 }
 .kupra {
-	position: absolute;
-    width: 25%;
-	text-align: right;
+	/* position: absolute; */
+    	width: 25%;
+	text-align: left;
 	font-size: 25pt;
 	color: #000099;
 
