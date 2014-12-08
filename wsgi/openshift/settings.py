@@ -157,6 +157,8 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     'account',
+    'pinax_theme_bootstrap',
+    'bootstrapform',
     )
 
 # A sample logging configuration. The only tangible logging
@@ -193,5 +195,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
     # allauth specific context processors
     "account.context_processors.account",
+    "django.core.context_processors.request",
+    "pinax_theme_bootstrap.context_processors.theme",
     )
 
+ACCOUNT_USE_AUTH_AUTHENTICATE = True

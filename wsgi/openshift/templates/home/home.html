@@ -1,6 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'site_base.html' %}
 
-{% block content %}
+{% block head_title %}Hello{% endblock %}
+
+{% block body %}
 <p>Sveiki atvykę</p>
-<p>Statiniai failai yra čia {{ STATIC_ROOT }}</p>
+{% if user.is_authenticated %}
+<p>veikia lyg ir</p>
+{% endif %}
 {% endblock %}
