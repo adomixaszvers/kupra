@@ -6,12 +6,18 @@
                 </td>
 
                 <td class="right">
+			{% if user.is_authenticated %}
+			<a href="/atsijungti">
+				<button class="standard-button" type="button">Atsijungti</button>
+			</a>
+			{% else %}
                     <a href="/prisijungti">
                         <button class="standard-button" type="button">Prisijungti </button>
                     </a>
                     <a href="/registruotis">
                         <button class="standard-button" type="button">Registruotis </button>
                     </a>
+		    {% endif %}
                 </td>
             </tr>
         </table>
