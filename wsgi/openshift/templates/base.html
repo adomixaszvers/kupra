@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+	<head>
+
+	{% block title %}
+	<title>base.html</title>
+	{% endblock %}
+
+	{% block css %}
+		{% load staticfiles %}
+        	<link rel="stylesheet" type="text/css" href="{% static 'stilius.css' %}" />
+	{% endblock %} 
+
+	</head>
+
+	<body>
+		<div class="menu">
+			{% block menu %}
+			{% include 'menu.html' %}
+			{% endblock %}
+		</div>
+
+		<div class="content">
+			{% block content %}
+			{% endblock %}
+		</div>
+
+		<div class="footer">
+			{% block footer %}
+			{% endblock %}
+		</div>
+	</body>
+</html>

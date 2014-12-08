@@ -1,26 +1,6 @@
-<html>
-    <head>
-        <meta charset="UTF-8">
-        {% load staticfiles %}
-        <link rel="stylesheet" type="text/css" href="{% static 'stilius.css' %}" />
-    </head>
-    <body>
+{% extends 'base.html' %}
 
-        <table class="main-table">
-            <tr class="menu-row">
-                <td class="kupra">
-                    KuPRA
-                </td>
-
-                <td class="right">
-                    <a href="/prisijungti">
-                        <button class="standard-button" type="button">Prisijungti </button>
-                    </a>
-                    <a href="/registruotis">
-                        <button class="standard-button" type="button">Registruotis </button>
-                    </a>
-                </td>
-            </tr>
-        </table>
-    </body>
-</html>
+{% block content %}
+<p>Sveiki atvykę</p>
+<p>Statiniai failai yra čia {{ STATIC_ROOT }}</p>
+{% endblock %}
