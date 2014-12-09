@@ -136,6 +136,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     "account.middleware.LocaleMiddleware",
     "account.middleware.TimezoneMiddleware",
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'openshift.urls'
@@ -159,6 +160,7 @@ INSTALLED_APPS = (
     'account',
     'pinax_theme_bootstrap',
     'bootstrapform',
+    'debug_toolbar',
     )
 
 # A sample logging configuration. The only tangible logging
