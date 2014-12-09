@@ -209,3 +209,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     )
 
 ACCOUNT_USE_AUTH_AUTHENTICATE = True
+
+FIXTURE_DIRS = (
+        os.path.join(PROJECT_DIR, 'fixtures'),
+)

@@ -1,0 +1,18 @@
+[
+    {
+        "pk": 1,
+        "model": "sites.site",
+        "fields": {
+            "domain": "localhost:8000",
+            "name": "KuPRA.com [localhost]"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "sites.site",
+        "fields": {
+            "domain": "-universitetui.rhcloud.com",
+            "name": "kupra"
+        }
+    }
+]
