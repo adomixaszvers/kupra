@@ -59,6 +59,15 @@ TIME_ZONE = 'Europe/Vilnius'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'lt'
 
+LOCALE_PATHS = (
+os.path.join(PROJECT_DIR, 'locale'),
+)
+gettext = lambda s: s
+LANGUAGES = (
+('lt', gettext('Lithuanian')),
+('en', gettext('English')),
+)
+
 SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
