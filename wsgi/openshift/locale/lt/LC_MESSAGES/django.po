@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: KuPRA\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-09 15:46+0200\n"
-"PO-Revision-Date: 2014-12-09 15:45+0200\n"
+"PO-Revision-Date: 2014-12-09 18:00+0200\n"
 "Last-Translator: Adomas Jatužis <adomixaszvers@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: lt\n"
@@ -102,7 +102,7 @@ msgstr "Ištrinti paskyrą"
 #: pinax_theme_bootstrap/templates/account/email_confirm.html:6
 #: pinax_theme_bootstrap/templates/account/email_confirm.html:12
 msgid "Confirm Email"
-msgstr "Patvirtinti email"
+msgstr "Patvirtinti el. paštą"
 
 #: pinax_theme_bootstrap/templates/account/email_confirm.html:15
 #, python-format
@@ -116,7 +116,7 @@ msgstr "Patvirtinti"
 #: pinax_theme_bootstrap/templates/account/email_confirmation_sent.html:6
 #: pinax_theme_bootstrap/templates/account/email_confirmation_sent.html:9
 msgid "Confirm your email address"
-msgstr "Patvirtinkite jūsų email adresą"
+msgstr "Patvirtinkite jūsų el. pašto adresą"
 
 #: pinax_theme_bootstrap/templates/account/email_confirmation_sent.html:11
 #, python-format
@@ -130,7 +130,7 @@ msgstr ""
 #: pinax_theme_bootstrap/templates/account/email_confirmed.html:6
 #: pinax_theme_bootstrap/templates/account/email_confirmed.html:9
 msgid "Email confirmed"
-msgstr "Email patvirtintas"
+msgstr "El. paštas patvirtintas"
 
 #: pinax_theme_bootstrap/templates/account/email_confirmed.html:10
 #, python-format
@@ -139,25 +139,25 @@ msgstr ""
 
 #: pinax_theme_bootstrap/templates/account/login.html:13
 msgid "Log in to an existing account"
-msgstr ""
+msgstr "Prisijungti prie esančios paskyros"
 
 #: pinax_theme_bootstrap/templates/account/login.html:19
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Užmiršote savo slaptažodį?"
 
 #: pinax_theme_bootstrap/templates/account/logout.html:15
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "Ar tikrai norite atsijungti?"
 
 #: pinax_theme_bootstrap/templates/account/password_change.html:19
 #: pinax_theme_bootstrap/templates/account/password_reset_token.html:17
 msgid "Save"
-msgstr ""
+msgstr "Išsaugoti"
 
 #: pinax_theme_bootstrap/templates/account/password_reset.html:8
 #: pinax_theme_bootstrap/templates/account/password_reset.html:16
 msgid "Password reset"
-msgstr ""
+msgstr "Slaptažodžio atkūrimas"
 
 #: pinax_theme_bootstrap/templates/account/password_reset.html:17
 msgid ""
@@ -167,7 +167,7 @@ msgstr ""
 
 #: pinax_theme_bootstrap/templates/account/password_reset.html:23
 msgid "Reset my password"
-msgstr ""
+msgstr "Atkurti mano slaptažodį"
 
 #: pinax_theme_bootstrap/templates/account/password_reset.html:30
 #, python-format
@@ -191,7 +191,7 @@ msgstr ""
 
 #: pinax_theme_bootstrap/templates/account/password_reset_sent.html:21
 msgid "Resend"
-msgstr ""
+msgstr "Persiųsti"
 
 #: pinax_theme_bootstrap/templates/account/password_reset_sent.html:26
 #, python-format
@@ -204,12 +204,12 @@ msgstr ""
 #: pinax_theme_bootstrap/templates/account/password_reset_token.html:7
 #: pinax_theme_bootstrap/templates/account/password_reset_token.html:13
 msgid "Set your new password"
-msgstr ""
+msgstr "Nustatykite jūsų naują slaptažodį"
 
 #: pinax_theme_bootstrap/templates/account/password_reset_token_fail.html:6
 #: pinax_theme_bootstrap/templates/account/password_reset_token_fail.html:9
 msgid "Bad token"
-msgstr ""
+msgstr "netinkamas atpažinimo ženklas"
 
 #: pinax_theme_bootstrap/templates/account/password_reset_token_fail.html:11
 #, python-format
@@ -224,18 +224,18 @@ msgstr ""
 
 #: pinax_theme_bootstrap/templates/account/signup_closed.html:10
 msgid "If you have signup code you can enter it below."
-msgstr ""
+msgstr "Jei turite prisijungimo kodą, galite suvesti jį žemiau."
 
 #: pinax_theme_bootstrap/templates/pagination/builtin_pagination.html:9
 #: pinax_theme_bootstrap/templates/pagination/builtin_pagination.html:12
 #: pinax_theme_bootstrap/templates/pagination/django_pagination_pagination.html:8
 #: pinax_theme_bootstrap/templates/pagination/django_pagination_pagination.html:11
 msgid "Previous"
-msgstr ""
+msgstr "Praeitas"
 
 #: pinax_theme_bootstrap/templates/pagination/builtin_pagination.html:18
 #: pinax_theme_bootstrap/templates/pagination/builtin_pagination.html:20
 #: pinax_theme_bootstrap/templates/pagination/django_pagination_pagination.html:21
 #: pinax_theme_bootstrap/templates/pagination/django_pagination_pagination.html:23
 msgid "Next"
-msgstr ""
+msgstr "Sekantis"
