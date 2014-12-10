@@ -4,3 +4,5 @@ django-debug-toolbar==1.2.2
 django-suit==0.2.12
 django-user-accounts==1.0
 pinax-theme-bootstrap==5.6.0
+Pillow==2.6.1
+django-uuid-upload-path

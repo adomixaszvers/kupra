@@ -6,6 +6,8 @@ from django.views.generic import TemplateView
 from django.contrib import admin
 admin.autodiscover()
 
+import kupra.urls
+
 urlpatterns = patterns('',
     # Examples:
     url(r"^$", TemplateView.as_view(template_name="home/home.html"), name="home"),
@@ -16,6 +18,7 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^kupra/', include(kupra.urls)),
     url(r"^account/", include("account.urls")),
 )
 if settings.DEBUG:
