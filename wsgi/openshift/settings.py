@@ -155,7 +155,7 @@ MIDDLEWARE_CLASSES = (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
-ROOT_URLCONF = 'openshift.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -172,6 +172,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
+    'suit',
     'django.contrib.admin',
     'account',
     'pinax_theme_bootstrap',
@@ -222,3 +223,5 @@ ACCOUNT_USE_AUTH_AUTHENTICATE = True
 FIXTURE_DIRS = (
         os.path.join(PROJECT_DIR, 'fixtures'),
 )
+
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'

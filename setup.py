@@ -10,8 +10,9 @@ setup(
     author='Adomas Jatužis',
     author_email='adomixaszvers@gmail.com',
     url='http://www.python.org/sigs/distutils-sig/',
-    install_requires=['Django<=1.4.3',
+    install_requires=['Django',
         'django-user-accounts',
         'pinax-theme-bootstrap',
-        'django-debug-toolbar',],
+        'django-debug-toolbar',
+        'django-suit',],
 )
