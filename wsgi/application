@@ -14,4 +14,4 @@ except:
     pass
 
 import django.core.handlers.wsgi
-application = django.core.handlers.wsgi.WSGIHandler()
+application = django.core.handlers.wsgi.get_wsgi_application()
