@@ -183,6 +183,8 @@ INSTALLED_APPS = (
     'bootstrapform',
     'debug_toolbar',
     'kupra',
+    'jquery',
+    'djangoformsetjs',
     )
 
 # A sample logging configuration. The only tangible logging

@@ -17,7 +17,7 @@ from django.views.generic.list import ListView
 
 class RecipeCreateView(CreateView):
     form_class = RecipeCreateForm
-    template_name = 'kupra/recipe_form.html'
+    template_name = 'test/test.html'
 
     def get(self, request, *args, **kwargs):
         """
