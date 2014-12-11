@@ -8,4 +8,4 @@ class RecipeCreateForm(forms.ModelForm):
         model = Recipe
         fields = ['name', 'text', 'img']
 
-RecipeProductFormSet = inlineformset_factory(Recipe, RecipeProduct)
+RecipeProductFormSet = inlineformset_factory(Recipe, RecipeProduct, extra=10, max_num=1)
