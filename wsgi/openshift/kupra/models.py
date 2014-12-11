@@ -42,7 +42,8 @@ class RecipeProduct(Product):
 class Recipe(models.Model):
     name = models.CharField(max_length=20)
     text = models.TextField()
-    img = models.ImageField(upload_to=upload_to)
+    img = models.ImageField(upload_to=upload_to, default='default.jpg')
+    user = models.ForeignKey(User, null=True)
 
     def __unicode__(self):
         return self.name

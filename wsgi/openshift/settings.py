@@ -21,6 +21,8 @@ ADMINS = (
 )
 MANAGERS = ADMINS
 
+LOGIN_URL = '/account/login/'
+
 if ON_OPENSHIFT:
     # os.environ['OPENSHIFT_MYSQL_DB_*'] variables can be used with databases created
     # with rhc cartridge add (see /README in this git repo)
@@ -233,3 +235,5 @@ ALLOWED_HOSTS = ['.rhcloud.com',]
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap'

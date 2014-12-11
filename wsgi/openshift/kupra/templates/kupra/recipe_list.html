@@ -1,0 +1,15 @@
+{% extends "site_base.html" %}
+{% block body %}
+<h1>Receptai</h1>
+<ul>
+{% for recipe in object_list %}
+    <li>
+	    <h2>{{ recipe.name }}</h2>
+	    <img src="{{ recipe.img.url }}" class="img-responsive" /><br />
+	    {{ recipe.text }}
+    </li>
+{% empty %}
+    <li>Dar receptų nėra.</li>
+{% endfor %}
+</ul>
+{% endblock %}

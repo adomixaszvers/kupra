@@ -1,13 +1,20 @@
 {% extends "site_base.html" %}
 {% block body %}
-<form method="POST" action="{% url 'recipe_create' %}">
+{% load bootstrap %}
+<form method="POST" enctype="multipart/form-data">
 	{% csrf_token %}
-	{% for field in form %}
-        <div class="fieldWrapper">
-            {{ field.errors }}
-            {{ field.label_tag }}: {{ field }}
-        </div>
-    {% endfor %}
-    <p><input type="submit" value="Send message" /></p>
-	<button type="submit" class="btn btn-danger">Kurti</button>
+	{{ form|bootstrap}}
+	{{ formset.management_form}}
+	<fieldset>
+                <legend>Produktai</legend>
+                {{ recipeproduct_form.management_form }}
+                {{ recipeproduct_form.non_form_errors }}
+                {% for form in recipeproduct_form %}
+                    {{ form.id }}
+                    <div class="{{ recipeproduct_form.prefix }}">
+                        {{ form|bootstrap_horizontal }}
+                    </div>
+                {% endfor %}
+            </fieldset>
+	<button type="submit" class="btn btn-primary">Kurti</button>
 {% endblock %}
