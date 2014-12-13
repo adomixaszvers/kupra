@@ -1,7 +1,7 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.core.urlresolvers import reverse_lazy
 from django.utils.decorators import method_decorator
-from models import Recipe
+from models import Recipe, KupraUser
 from django.contrib.auth.decorators import login_required
 from forms import RecipeCreateForm, RecipeProductFormSet
 
@@ -14,6 +14,17 @@ from django.views.generic.edit import (
         DeleteView,
         )
 from django.views.generic.list import ListView
+
+class KupraUserUpdateView(UpdateView):
+    model = KupraUser
+    fields = ['address', 'info', 'img']
+    template_name = 'account/private_update.html'
+
+    def get_object(self):
+        return get_object_or_404(KupraUser, pk=self.request.user.kuprauser.pk)
+
+    def get_success_url(self):
+        return reverse_lazy('account_private')
 
 class RecipeCreateView(CreateView):
     form_class = RecipeCreateForm

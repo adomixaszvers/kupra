@@ -1,3 +1,4 @@
+#-*- encoding: utf-8 -*-
 from models import Recipe, RecipeProduct
 from django import forms
 from django.forms.models import inlineformset_factory

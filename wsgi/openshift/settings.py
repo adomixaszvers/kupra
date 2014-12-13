@@ -176,15 +176,16 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
+    'kupra',
     'suit',
     'django.contrib.admin',
     'account',
     'pinax_theme_bootstrap',
     'bootstrapform',
     'debug_toolbar',
-    'kupra',
     'jquery',
     'djangoformsetjs',
+    'django_extensions',
     )
 
 # A sample logging configuration. The only tangible logging
@@ -233,9 +234,7 @@ FIXTURE_DIRS = (
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
-ALLOWED_HOSTS = ['.rhcloud.com',]
+ALLOWED_HOSTS = ['.rhcloud.com', ]
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
-
-CRISPY_TEMPLATE_PACK = 'bootstrap'

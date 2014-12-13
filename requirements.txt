@@ -7,3 +7,5 @@ pinax-theme-bootstrap==5.6.0
 Pillow==2.6.1
 django-uuid-upload-path
 django-formset-js
+django_extensions
+ipython[notebook]
