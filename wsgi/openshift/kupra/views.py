@@ -6,6 +6,10 @@ from django.contrib.auth.decorators import login_required
 from forms import RecipeCreateForm, RecipeProductFormSet
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
+from extra_views import InlineFormSet, CreateWithInlinesView, UpdateWithInlinesView
+from extra_views.generic import GenericInlineFormSet
+from models import RecipeProduct
+import pdb
 
 
 # Create your views here.
@@ -29,6 +33,18 @@ class KupraUserUpdateView(UpdateView):
     def get_success_url(self):
         return reverse_lazy('account_private')
 
+
+class RecipeListView(ListView):
+    model = Recipe
+    paginate_by = 1
+
+
+class RecipeDetailView(DetailView):
+    model = Recipe
+
+
+class RecipeProductInline(InlineFormSet):
+    model = RecipeProduct
 
 class RecipeMixin(object):
     def get(self, request, *args, **kwargs):
@@ -88,38 +104,11 @@ class RecipeCreateView(RecipeMixin, CreateView):
     form_class = RecipeCreateForm
     template_name = 'test/test.html'
 
-class RecipeListView(ListView):
+class RecipeUpdateView(UpdateWithInlinesView):
     model = Recipe
-    paginate_by = 1
+    inlines = [RecipeProductInline, ]
+    form_class = RecipeCreateForm
 
 
-class RecipeDetailView(DetailView):
-    model = Recipe
-
-
-class RecipeUpdateView(RecipeMixin, UpdateView):
-    model = Recipe
-    fields = ['name', 'text', 'img', 'time', 'portions']
-    template_name = 'test/test.html'
-
-    def get_object(self, queryset=None):
-        """Returns the object the view is displaying.
-
-        """
-
-        if queryset is None:
-            queryset = self.get_queryset()
-
-        pk = self.kwargs.get('pk', None)
-        queryset = queryset.filter(
-            pk=pk,
-            user=self.request.user,
-        )
-
-        try:
-            obj = queryset.get()
-        except ObjectDoesNotExist:
-            raise Http404(u"No %(verbose_name)s found matching the query" %
-                          {'verbose_name': queryset.model._meta.verbose_name})
-
-        return obj
+    def get_success_url(self):
+        return reverse_lazy('recipe_list')

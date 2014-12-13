@@ -70,7 +70,7 @@ class Recipe(models.Model):
     name = models.CharField(max_length=20)
     text = models.TextField()
     img = models.ImageField(upload_to=upload_to, default='default.jpg')
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, null=True)
     portions = models.IntegerField()
     time = models.CharField(max_length=20)
 
