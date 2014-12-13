@@ -7,6 +7,6 @@ class RecipeCreateForm(forms.ModelForm):
 
     class Meta:
         model = Recipe
-        fields = ['name', 'text', 'img']
+        fields = ['name', 'text', 'img', 'time', 'portions']
 
-RecipeProductFormSet = inlineformset_factory(Recipe, RecipeProduct, extra=3, max_num=10)
+RecipeProductFormSet = inlineformset_factory(Recipe, RecipeProduct, extra=3, max_num=20)

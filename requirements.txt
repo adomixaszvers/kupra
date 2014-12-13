@@ -9,3 +9,4 @@ django-uuid-upload-path
 django-formset-js
 django_extensions
 ipython[notebook]
+django-bootstrap-pagination

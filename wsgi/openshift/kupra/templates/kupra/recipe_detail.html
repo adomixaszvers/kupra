@@ -1,0 +1,7 @@
+{% extends "site_base.html" %}
+{% block body %}
+<h1>Receptas</h1>
+	    <h2>{{ recipe.name }}</h2>
+	    <img src="{{ recipe.img.url }}" class="img-responsive" /><br />
+	    {{ recipe.text }}
+{% endblock %}

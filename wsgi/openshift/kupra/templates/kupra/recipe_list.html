@@ -7,6 +7,9 @@
 	    <h2>{{ recipe.name }}</h2>
 	    <img src="{{ recipe.img.url }}" class="img-responsive" /><br />
 	    {{ recipe.text }}
+	    <a href="{% url 'recipe_detail' recipe.pk%}">Plačiau</a>
+	    {% load bootstrap_pagination %}
+	    {% bootstrap_paginate page_obj %}
     </li>
 {% empty %}
     <li>Dar receptų nėra.</li>

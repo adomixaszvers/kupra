@@ -186,6 +186,7 @@ INSTALLED_APPS = (
     'jquery',
     'djangoformsetjs',
     'django_extensions',
+    'bootstrap_pagination',
     )
 
 # A sample logging configuration. The only tangible logging

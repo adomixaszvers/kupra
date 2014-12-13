@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext as _
 from uuid_upload_path import upload_to
-from django.conf import settings
+
 
 # Create your models here.
 
@@ -52,23 +51,34 @@ class Product(models.Model):
 
 
 class UserProduct(Product):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-
-    def __unicode__(self):
-        user = self.user
-        string = super(UserProduct, self).__unicode__()
-        return _(u"{user}'s {string}".format(user=user, string=string))
+    user = models.ForeignKey(User)
 
 
 class RecipeProduct(Product):
     recipe = models.ForeignKey('Recipe')
 
 
+class RecipeComment(models.Model):
+    CHOICES = ((x, x) for x in range(1, 11))
+    recipe = models.ForeignKey('kupra.Recipe')
+    user = models.ForeignKey(User)
+    score = models.IntegerField(choices=CHOICES)
+    comment = models.TextField()
+
+
 class Recipe(models.Model):
     name = models.CharField(max_length=20)
     text = models.TextField()
     img = models.ImageField(upload_to=upload_to, default='default.jpg')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+    user = models.ForeignKey(User)
+    portions = models.IntegerField()
+    time = models.CharField(max_length=20)
 
     def __unicode__(self):
         return self.name
+
+
+class MenuRecipe(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.PROTECT)
+    date = models.DateTimeField()
+    user = models.ForeignKey(User)

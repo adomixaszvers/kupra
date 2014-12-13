@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import UnitOfMeasure, Recipe, RecipeProduct
+from models import UnitOfMeasure, Recipe, RecipeProduct, RecipeComment
 
 # Register your models here.
 
@@ -28,3 +28,4 @@ admin.site.register(User, UserAdmin)
 admin.site.register(UnitOfMeasure)
 admin.site.register(Recipe)
 admin.site.register(RecipeProduct)
+admin.site.register(RecipeComment)

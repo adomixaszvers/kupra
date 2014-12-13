@@ -4,6 +4,8 @@ from django.utils.decorators import method_decorator
 from models import Recipe, KupraUser
 from django.contrib.auth.decorators import login_required
 from forms import RecipeCreateForm, RecipeProductFormSet
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
 
 
 # Create your views here.
@@ -14,6 +16,7 @@ from django.views.generic.edit import (
         DeleteView,
         )
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 
 class KupraUserUpdateView(UpdateView):
     model = KupraUser
@@ -26,10 +29,8 @@ class KupraUserUpdateView(UpdateView):
     def get_success_url(self):
         return reverse_lazy('account_private')
 
-class RecipeCreateView(CreateView):
-    form_class = RecipeCreateForm
-    template_name = 'test/test.html'
 
+class RecipeMixin(object):
     def get(self, request, *args, **kwargs):
         """
         Handles GET requests and instantiates blank versions of the form
@@ -52,7 +53,7 @@ class RecipeCreateView(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        recipeproduct_form = RecipeProductFormSet(self.request.POST)
+        recipeproduct_form = RecipeProductFormSet(self.request.POST,)
         if (form.is_valid() and recipeproduct_form.is_valid()):
             return self.form_valid(form, recipeproduct_form)
         else:
@@ -80,7 +81,45 @@ class RecipeCreateView(CreateView):
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
-        return super(RecipeCreateView, self).dispatch(*args, **kwargs)
+        return super(RecipeMixin, self).dispatch(*args, **kwargs)
+
+
+class RecipeCreateView(RecipeMixin, CreateView):
+    form_class = RecipeCreateForm
+    template_name = 'test/test.html'
 
 class RecipeListView(ListView):
     model = Recipe
+    paginate_by = 1
+
+
+class RecipeDetailView(DetailView):
+    model = Recipe
+
+
+class RecipeUpdateView(RecipeMixin, UpdateView):
+    model = Recipe
+    fields = ['name', 'text', 'img', 'time', 'portions']
+    template_name = 'test/test.html'
+
+    def get_object(self, queryset=None):
+        """Returns the object the view is displaying.
+
+        """
+
+        if queryset is None:
+            queryset = self.get_queryset()
+
+        pk = self.kwargs.get('pk', None)
+        queryset = queryset.filter(
+            pk=pk,
+            user=self.request.user,
+        )
+
+        try:
+            obj = queryset.get()
+        except ObjectDoesNotExist:
+            raise Http404(u"No %(verbose_name)s found matching the query" %
+                          {'verbose_name': queryset.model._meta.verbose_name})
+
+        return obj
