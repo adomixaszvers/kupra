@@ -11,3 +11,4 @@ django_extensions
 ipython[notebook]
 django-bootstrap-pagination
 django-extra-views
+django-datetime-widget

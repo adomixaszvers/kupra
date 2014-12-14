@@ -187,6 +187,7 @@ INSTALLED_APPS = (
     'djangoformsetjs',
     'django_extensions',
     'bootstrap_pagination',
+    'datetimewidget',
     )
 
 # A sample logging configuration. The only tangible logging
@@ -239,3 +240,7 @@ ALLOWED_HOSTS = ['.rhcloud.com', ]
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+
+USE_L10N = True
+USE_TZ = True
+USE_I18N = True

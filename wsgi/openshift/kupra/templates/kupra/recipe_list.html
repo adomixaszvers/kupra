@@ -8,6 +8,7 @@
 	    <img src="{{ recipe.img.url }}" class="img-responsive" /><br />
 	    {{ recipe.text }}
 	    <a href="{% url 'recipe_detail' recipe.pk%}">Plačiau</a>
+	    <a href="{% url 'add_recipe_to_menu' recipe.pk %}">Pridėti į valgiaraštį</a>
 	    {% load bootstrap_pagination %}
 	    {% bootstrap_paginate page_obj %}
     </li>
