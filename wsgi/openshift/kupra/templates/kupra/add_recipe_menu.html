@@ -1,0 +1,16 @@
+{% extends 'site_base.html' %}
+{% block body%}
+{% load bootstrap %}
+<form method="POST">
+{% csrf_token %}
+{{ form|bootstrap}}
+<button type="submit" >Pridėti</button>
+</form>
+{% endblock %}
+{% block extra_head %}
+{% load static %}
+<script src="{{ STATIC_URL }}js/jquery.js"></script>
+<script src="{{ STATIC_URL }}jquery/js/jquery-2.1.1.min.js"></script>
+<script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
+{{form.media}}
+{% endblock %}

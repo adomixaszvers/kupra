@@ -1,0 +1,7 @@
+{% extends 'site_base.html' %}
+{% block body %}
+<form action="" method="post">{% csrf_token %}
+    <p>Ar tikrai norite ištrinti "{{ object }}"?</p>
+    <input type="submit" value="Taip" />
+</form>
+{% endblock %}

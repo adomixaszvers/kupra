@@ -11,3 +11,4 @@ kupra.nja
 KuPRA.egg-info
 dist
 wsgi/openshift/sqlite3.db
+wsgi/openshift/media/*
