@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Django settings for OpenShift project.
-import imp, os
+import imp
+import os
 
 # a setting to determine whether we are running on OpenShift
 ON_OPENSHIFT = False
@@ -129,7 +130,9 @@ STATICFILES_FINDERS = (
 )
 
 # Make a dictionary of default keys
-default_keys = { 'SECRET_KEY': 'vm4rl5*ymb@2&d_(gc$gb-^twq9w(u69hi--%$5xrh!xk(t%hw' }
+default_keys = {
+    'SECRET_KEY': 'vm4rl5*ymb@2&d_(gc$gb-^twq9w(u69hi--%$5xrh!xk(t%hw',
+        }
 
 # Replace default keys with dynamic values if we are in OpenShift
 use_keys = default_keys
@@ -162,7 +165,8 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Put strings here, like "/home/html/django_templates" or
+    # "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(PROJECT_DIR, 'templates'),

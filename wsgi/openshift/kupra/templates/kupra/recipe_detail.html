@@ -1,7 +1,11 @@
 {% extends "site_base.html" %}
+{% block title %}
+Receptas: {{ recipe.name }}
+{% endblock %}
 {% block body %}
 <h1>Receptas</h1>
 	    <h2>{{ recipe.name }}</h2>
-	    <img src="{{ recipe.img.url }}" class="img-responsive" /><br />
 	    {{ recipe.text }}
+	    <img src="{{ recipe.img.url }}" class="img-responsive" /><br />
+	    <p><a href="{% url 'add_recipe_to_menu' recipe.pk %}">Pridėti į valgiaraštį</a></p>
 {% endblock %}

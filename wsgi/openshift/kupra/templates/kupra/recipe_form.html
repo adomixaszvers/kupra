@@ -2,9 +2,10 @@
 
 {% block body %}
 {% load formset_tags %}
+{% load bootstrap %}
 <form method="POST" enctype="multipart/form-data">
 {% csrf_token %}
-{{ form.as_p }}
+{{ form|bootstrap }}
 {%with formset=inlines.0 %}
 <div id="formset" data-formset-prefix="{{ formset.prefix }}">
     {{ formset.management_form }}
@@ -13,7 +14,7 @@
         <!-- New forms will be inserted in here -->
         {% for form in formset %}
             <div data-formset-form>
-                {{ form }}
+                {{ form|bootstrap }}
                 <!--<button type="button" data-formset-delete-button>Delete form</button>-->
             </div>
         {% endfor %}
@@ -25,7 +26,7 @@
     <script type="form-template" data-formset-empty-form>
         {% escapescript %}
             <div data-formset-form>
-                {{ formset.empty_form }}
+                {{ formset.empty_form|bootstrap }}
                 <!--<button type="button" data-formset-delete-button>Delete form</button>-->
             </div>
         {% endescapescript %}

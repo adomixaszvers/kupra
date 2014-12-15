@@ -2,10 +2,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from uuid_upload_path import upload_to
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.db import transaction
-
 
 
 # Create your models here.
@@ -26,16 +25,18 @@ class KupraUser(models.Model):
     address = models.TextField(verbose_name=u"Adresas")
     info = models.TextField(verbose_name=u"Aprašymas")
     objects = KupraUserManager()
+
     class Meta:
-        verbose_name=u'KuPRA vartotojas'
-        verbose_name_plural=u'KuPRA vartotojai'
+        verbose_name = u'KuPRA vartotojas'
+        verbose_name_plural = u'KuPRA vartotojai'
 
 
 class UnitOfMeasure(models.Model):
     name = models.CharField(max_length=20, verbose_name=u'Pavadinimas')
+
     class Meta:
-        verbose_name=u'Matavimo vienetas'
-        verbose_name_plural=u'Matavimo vienetai'
+        verbose_name = u'Matavimo vienetas'
+        verbose_name_plural = u'Matavimo vienetai'
 
     def __unicode__(self):
         return self.name
@@ -44,12 +45,16 @@ class UnitOfMeasure(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=20, verbose_name=u'Pavadinimas')
     quantity = models.FloatField(verbose_name=u'Kiekis')
-    unit = models.ForeignKey(UnitOfMeasure, on_delete=models.PROTECT, verbose_name=u'Matavimo vienetas')
+    unit = models.ForeignKey(
+        UnitOfMeasure,
+        on_delete=models.PROTECT,
+        verbose_name=u'Matavimo vienetas'
+        )
 
     class Meta:
         abstract = True
-        verbose_name=u'Ingredientas'
-        verbose_name_plural=u'Ingredientai'
+        verbose_name = u'Ingredientas'
+        verbose_name_plural = u'Ingredientai'
 
     def __unicode__(self):
         name = self.name
@@ -64,16 +69,18 @@ class Product(models.Model):
 
 class UserProduct(Product):
     user = models.ForeignKey(User, verbose_name=u'Vartotojas')
+
     class Meta:
-        verbose_name=u'Vartotojo produktas'
-        verbose_name_plural=u'Vartotojo produktai'
+        verbose_name = u'Vartotojo produktas'
+        verbose_name_plural = u'Vartotojo produktai'
 
 
 class RecipeProduct(Product):
     recipe = models.ForeignKey('Recipe', verbose_name=u'Receptas')
+
     class Meta:
-        verbose_name=u'Recepto ingredientas'
-        verbose_name_plural=u'Recepto ingredientai'
+        verbose_name = u'Recepto ingredientas'
+        verbose_name_plural = u'Recepto ingredientai'
 
 
 @receiver(post_save, sender=RecipeProduct)
@@ -105,32 +112,58 @@ class RecipeComment(models.Model):
     user = models.ForeignKey(User, verbose_name=u'Vartotojas')
     score = models.IntegerField(choices=CHOICES, verbose_name=u'Įvertinimas')
     comment = models.TextField(verbose_name=u'Komentaras')
+
     class Meta:
         unique_together = ('user', 'recipe')
-        verbose_name=u'Recepto komentaras'
-        verbose_name_plural=u'Recepto komentarai'
+        verbose_name = u'Recepto komentaras'
+        verbose_name_plural = u'Recepto komentarai'
 
 
 class Recipe(models.Model):
     name = models.CharField(max_length=20, verbose_name=u'Pavadinimas')
     text = models.TextField(verbose_name=u'Aprašymas')
-    img = models.ImageField(upload_to=upload_to, default='default.jpg', verbose_name=u'Nuotrauka')
+    img = models.ImageField(
+        upload_to=upload_to,
+        default='default.jpg',
+        verbose_name=u'Nuotrauka'
+        )
     user = models.ForeignKey(User, null=True, verbose_name=u'Vartotojas')
     portions = models.IntegerField(verbose_name=u'Porcijų kiekis')
     time = models.CharField(max_length=20, verbose_name=u'Paruošimo laikas')
+    private = models.BooleanField(default=False, verbose_name=u'Privatus')
+    avgscore = models.FloatField(default=0, editable=False)
 
     def __unicode__(self):
         return self.name
+
     class Meta:
-        verbose_name=u'Receptas'
-        verbose_name_plural=u'Receptai'
+        verbose_name = u'Receptas'
+        verbose_name_plural = u'Receptai'
+        ordering = ['-avgscore', ]
+
+
+def update_avgscore(sender, **kwargs):
+    comment = kwargs['instance']
+    recipe = comment.recipe
+    comments = RecipeComment.objects.filter(recipe=recipe)
+    avgscore = comments.aggregate(models.Avg('score')).values()[0]
+    recipe.avgscore = avgscore
+    recipe.save()
+
+
+post_save.connect(update_avgscore, sender=RecipeComment)
+post_delete.connect(update_avgscore, sender=RecipeComment)
 
 
 class MenuRecipe(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.PROTECT, verbose_name=u'Receptas')
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.PROTECT,
+        verbose_name=u'Receptas'
+        )
     date = models.DateTimeField(verbose_name=u'Data')
     user = models.ForeignKey(User, verbose_name=u'Vartotojas')
 
     class Meta:
-        verbose_name=u'Valgiaraščio receptas'
-        verbose_name_plural=u'Valgiaraščio receptai'
+        verbose_name = u'Valgiaraščio receptas'
+        verbose_name_plural = u'Valgiaraščio receptai'

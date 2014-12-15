@@ -1,5 +1,11 @@
 from django.contrib import admin
-from models import UnitOfMeasure, Recipe, RecipeProduct, RecipeComment, MenuRecipe
+from models import (
+    UnitOfMeasure,
+    Recipe,
+    RecipeProduct,
+    RecipeComment,
+    MenuRecipe,
+    )
 
 # Register your models here.
 

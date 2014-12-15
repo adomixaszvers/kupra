@@ -5,10 +5,11 @@
 {% for recipe in object_list %}
     <li>
 	    <h2>{{ recipe.name }}</h2>
-	    <img src="{{ recipe.img.url }}" class="img-responsive" /><br />
-	    {{ recipe.text }}
-	    <a href="{% url 'recipe_detail' recipe.pk%}">Plačiau</a>
-	    <a href="{% url 'add_recipe_to_menu' recipe.pk %}">Pridėti į valgiaraštį</a>
+	    <p class="lead">{{ recipe.text }}</p>
+            <a href="{% url 'recipe_detail' recipe.pk%}">
+	    <img src="{{ recipe.img.url }}" class="img-responsive" class="img-thumbnail"/><br />
+	    </a>
+	    <p><a href="{% url 'recipe_detail' recipe.pk%}">Plačiau</a></p>
 	    {% load bootstrap_pagination %}
 	    {% bootstrap_paginate page_obj %}
     </li>
