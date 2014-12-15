@@ -11,10 +11,10 @@
     <div class="row">
         <div class="col-md-5">
             <form method="POST" action="{% url "account_private" %}">
-                <legend>Private data</legend>
+                <legend>Privatūs duomenys</legend>
                 {% csrf_token %}
                 {{ form|bootstrap }}
-                <button class="btn btn-primary" type="submit">Save</button>
+                <button class="btn btn-primary" type="submit">Išsaugoti</button>
             </form>
         </div>
     </div>

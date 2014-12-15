@@ -18,30 +18,38 @@ class KupraUserManager(models.Manager):
 
 
 class KupraUser(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, verbose_name=u'Vartotojas')
     img = models.ImageField(
         upload_to=upload_to,
-        verbose_name="Profilio nuotrauka"
+        verbose_name="uProfilio nuotrauka"
     )
-    address = models.TextField(verbose_name="Adresas")
-    info = models.TextField(verbose_name="Aprašymas")
+    address = models.TextField(verbose_name=u"Adresas")
+    info = models.TextField(verbose_name=u"Aprašymas")
     objects = KupraUserManager()
+    class Meta:
+        verbose_name=u'KuPRA vartotojas'
+        verbose_name_plural=u'KuPRA vartotojai'
 
 
 class UnitOfMeasure(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, verbose_name=u'Pavadinimas')
+    class Meta:
+        verbose_name=u'Matavimo vienetas'
+        verbose_name_plural=u'Matavimo vienetai'
 
     def __unicode__(self):
         return self.name
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=20)
-    quantity = models.FloatField()
-    unit = models.ForeignKey(UnitOfMeasure, on_delete=models.PROTECT)
+    name = models.CharField(max_length=20, verbose_name=u'Pavadinimas')
+    quantity = models.FloatField(verbose_name=u'Kiekis')
+    unit = models.ForeignKey(UnitOfMeasure, on_delete=models.PROTECT, verbose_name=u'Matavimo vienetas')
 
     class Meta:
         abstract = True
+        verbose_name=u'Ingredientas'
+        verbose_name_plural=u'Ingredientai'
 
     def __unicode__(self):
         name = self.name
@@ -55,11 +63,17 @@ class Product(models.Model):
 
 
 class UserProduct(Product):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, verbose_name=u'Vartotojas')
+    class Meta:
+        verbose_name=u'Vartotojo produktas'
+        verbose_name_plural=u'Vartotojo produktai'
 
 
 class RecipeProduct(Product):
-    recipe = models.ForeignKey('Recipe')
+    recipe = models.ForeignKey('Recipe', verbose_name=u'Receptas')
+    class Meta:
+        verbose_name=u'Recepto ingredientas'
+        verbose_name_plural=u'Recepto ingredientai'
 
 
 @receiver(post_save, sender=RecipeProduct)
@@ -87,27 +101,36 @@ def recipe_product_handle(sender, **kwargs):
 
 class RecipeComment(models.Model):
     CHOICES = ((x, x) for x in range(1, 11))
-    recipe = models.ForeignKey('kupra.Recipe')
-    user = models.ForeignKey(User)
-    score = models.IntegerField(choices=CHOICES)
-    comment = models.TextField()
+    recipe = models.ForeignKey('kupra.Recipe', verbose_name=u'Receptas')
+    user = models.ForeignKey(User, verbose_name=u'Vartotojas')
+    score = models.IntegerField(choices=CHOICES, verbose_name=u'Įvertinimas')
+    comment = models.TextField(verbose_name=u'Komentaras')
     class Meta:
         unique_together = ('user', 'recipe')
+        verbose_name=u'Recepto komentaras'
+        verbose_name_plural=u'Recepto komentarai'
 
 
 class Recipe(models.Model):
-    name = models.CharField(max_length=20)
-    text = models.TextField()
-    img = models.ImageField(upload_to=upload_to, default='default.jpg')
-    user = models.ForeignKey(User, null=True)
-    portions = models.IntegerField()
-    time = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, verbose_name=u'Pavadinimas')
+    text = models.TextField(verbose_name=u'Aprašymas')
+    img = models.ImageField(upload_to=upload_to, default='default.jpg', verbose_name=u'Nuotrauka')
+    user = models.ForeignKey(User, null=True, verbose_name=u'Vartotojas')
+    portions = models.IntegerField(verbose_name=u'Porcijų kiekis')
+    time = models.CharField(max_length=20, verbose_name=u'Paruošimo laikas')
 
     def __unicode__(self):
         return self.name
+    class Meta:
+        verbose_name=u'Receptas'
+        verbose_name_plural=u'Receptai'
 
 
 class MenuRecipe(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.PROTECT)
-    date = models.DateTimeField()
-    user = models.ForeignKey(User)
+    recipe = models.ForeignKey(Recipe, on_delete=models.PROTECT, verbose_name=u'Receptas')
+    date = models.DateTimeField(verbose_name=u'Data')
+    user = models.ForeignKey(User, verbose_name=u'Vartotojas')
+
+    class Meta:
+        verbose_name=u'Valgiaraščio receptas'
+        verbose_name_plural=u'Valgiaraščio receptai'
