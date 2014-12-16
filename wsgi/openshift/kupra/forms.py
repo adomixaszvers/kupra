@@ -1,5 +1,5 @@
 #-*- encoding: utf-8 -*-
-from models import Recipe, RecipeProduct, MenuRecipe
+from models import Recipe, RecipeProduct, MenuRecipe, RecipeComment
 from django import forms
 from django.forms.models import inlineformset_factory
 from datetimewidget.widgets import DateTimeWidget
@@ -29,6 +29,7 @@ class AddRecipeToMenuForm(forms.ModelForm):
             'date': DateTimeWidget(bootstrap_version=2, usel10n=True),
         }
 
+
 class MenuForm(forms.ModelForm):
     class Meta:
         model = MenuRecipe
@@ -36,9 +37,15 @@ class MenuForm(forms.ModelForm):
         dateTimeOptions = {
             'startDate': datetime.today(),
             'bootstrap_version': 2,
-            'usel10n':True
+            'usel10n': True
         }
         widgets = {
             #NOT Use localization and set a default format
             'date': DateTimeWidget(bootstrap_version=2, usel10n=True),
         }
+
+
+class RecipeCommentForm(forms.ModelForm):
+    class Meta:
+        model = RecipeComment
+        fields = ['score', 'comment']

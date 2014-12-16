@@ -2,9 +2,15 @@
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, render_to_response
 from django.core.urlresolvers import reverse_lazy
 from django.utils.decorators import method_decorator
-from models import Recipe, KupraUser, UserProduct
+from models import Recipe, KupraUser, UserProduct, RecipeComment
 from django.contrib.auth.decorators import login_required
-from forms import RecipeCreateForm, RecipeProductFormSet, AddRecipeToMenuForm, MenuForm
+from forms import (
+    RecipeCreateForm,
+    RecipeProductFormSet,
+    AddRecipeToMenuForm,
+    MenuForm,
+    RecipeCommentForm,
+    )
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from extra_views import InlineFormSet, CreateWithInlinesView, UpdateWithInlinesView, InlineFormSetView
@@ -267,3 +273,31 @@ def produce_all_recipes(request):
             {'products': required},
             RequestContext(request),
             )
+
+
+class RecipeCommentView(LoginRequiredMixin, FormView):
+    form_class = RecipeCommentForm
+    template_name = 'kupra/comment.html'
+    success_url = reverse_lazy('recipe_list')
+
+    def form_valid(self, form):
+        user = self.request.user
+        recipe = get_object_or_404(Recipe, pk=self.kwargs['recipe_pk'])
+        score = form.cleaned_data['score']
+        comment = form.cleaned_data['comment']
+        try:
+            obj = RecipeComment.objects.get(
+                user=user,
+                recipe=recipe,
+                )
+            obj.score = form.cleaned_data['score']
+            obj.comment = form.cleaned_data['comment']
+        except RecipeComment.DoesNotExist:
+            obj = RecipeComment.objects.create(
+                recipe=recipe,
+                comment=comment,
+                score=score,
+                user=user,
+                )
+        obj.save()
+        return FormView.form_valid(self, form)
