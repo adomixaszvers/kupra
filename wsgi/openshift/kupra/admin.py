@@ -5,6 +5,7 @@ from models import (
     RecipeProduct,
     RecipeComment,
     MenuRecipe,
+    UserProduct,
     )
 
 # Register your models here.
@@ -36,3 +37,4 @@ admin.site.register(Recipe)
 admin.site.register(RecipeProduct)
 admin.site.register(RecipeComment)
 admin.site.register(MenuRecipe)
+admin.site.register(UserProduct)

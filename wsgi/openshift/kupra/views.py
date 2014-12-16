@@ -2,7 +2,7 @@
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, render_to_response
 from django.core.urlresolvers import reverse_lazy
 from django.utils.decorators import method_decorator
-from models import Recipe, KupraUser
+from models import Recipe, KupraUser, UserProduct
 from django.contrib.auth.decorators import login_required
 from forms import RecipeCreateForm, RecipeProductFormSet, AddRecipeToMenuForm, MenuForm
 from django.core.exceptions import ObjectDoesNotExist
@@ -14,6 +14,8 @@ import pdb
 from django.db.models import ProtectedError
 from django.views.generic import FormView
 from django.contrib.auth.models import User
+from django.db.models import Q
+from django.template import RequestContext
 
 
 # Create your views here.
@@ -40,7 +42,15 @@ class KupraUserUpdateView(UpdateView):
 
 class RecipeListView(ListView):
     model = Recipe
-    paginate_by = 1
+    paginate_by = 10
+
+    def get_queryset(self):
+        if not self.request.user.id is None:
+            return Recipe.objects.filter(
+                Q(user=self.request.user) | Q(private=False)
+            )
+        else:
+            return Recipe.objects.filter(private=False)
 
 
 class RecipeDetailView(DetailView):
@@ -150,7 +160,8 @@ class AddRecipeToMenuView(LoginRequiredMixin, FormView):
         menu_recipe.save()
         return super(AddRecipeToMenuView, self).form_valid(form)
 
-class MenuRecipeInline(InlineFormSetView):
+
+class MenuRecipeInline(LoginRequiredMixin, InlineFormSetView):
     model = User
     inline_model = MenuRecipe
     template_name = 'kupra/menu.html'
@@ -158,3 +169,46 @@ class MenuRecipeInline(InlineFormSetView):
     extra = 0
     def get_object(self):
         return get_object_or_404(User, pk=self.request.user.pk)
+
+
+@login_required
+def produce_recipe(request, recipe_pk):
+    recipe = get_object_or_404(Recipe, pk=recipe_pk)
+    user_products = request.user.userproduct_set.all()
+    recipe_products = recipe.recipeproduct_set.all()
+    is_enough = True
+    required = list()
+    to_save = list()
+    for recipe_product in recipe_products:
+        unit = recipe_product.unit
+        name = recipe_product.name
+        quantity = recipe_product.quantity
+        try:
+            user_product = user_products.get(name=name, unit=unit)
+            user_quantity = user_product.quantity
+            user_product.quantity -= quantity
+            to_save.append(user_product)
+        except UserProduct.DoesNotExist:
+            user_quantity = 0
+        if user_quantity < quantity:
+            is_enough = False
+            required.append(
+                {'name': name,
+                    'unit': unit.name,
+                    'quantity': quantity - user_quantity
+                    })
+            continue
+    if is_enough:
+        for user_product in to_save:
+            user_product.save()
+        return render_to_response(
+            'kupra/recipe_produced.html',
+            {},
+            RequestContext(request),
+            )
+    else:
+        return render_to_response(
+            'kupra/recipe_required_products.html',
+            {'products': required},
+            RequestContext(request),
+            )

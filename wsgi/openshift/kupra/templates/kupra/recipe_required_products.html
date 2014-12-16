@@ -1,0 +1,9 @@
+{% extends 'site_base.html' %}
+{% block body %}
+<p>Jums trūksta šių produktų:</p>
+<ul>
+{% for product in products %}
+<li>{{ product.name }}: {{ product.quantity }} {{ product.unit }}</li>
+{% endfor %}
+</ul>
+{% endblock %}
