@@ -85,7 +85,7 @@ class RecipeProduct(Product):
 
 @receiver(post_save, sender=RecipeProduct)
 @transaction.atomic
-def recipe_product_handle(sender, **kwargs):
+def recipe_product_unique(sender, **kwargs):
     if not kwargs.get('created'):
         return
     product = kwargs.get('instance')
@@ -104,6 +104,15 @@ def recipe_product_handle(sender, **kwargs):
     product.quantity = quantity
     product.save()
     return
+
+
+@receiver(post_save, sender=RecipeProduct)
+def recipe_product_zero(sender, **kwargs):
+    product = kwargs['instance']
+    if product.quantity > 0:
+        return
+    else:
+        product.delete()
 
 
 class RecipeComment(models.Model):
