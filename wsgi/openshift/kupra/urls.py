@@ -9,7 +9,8 @@ from views import (
     RecipeDeleteView,
     AddRecipeToMenuView,
     MenuRecipeInline,
-    produce_recipe
+    produce_recipe,
+    produce_all_recipes
     )
 urlpatterns = patterns('',
     # Examples:
@@ -21,4 +22,5 @@ urlpatterns = patterns('',
     url(r"^recipe/(?P<recipe_pk>\d+)/produce$", produce_recipe, name="recipe_produce"),
     url(r"^menu/(?P<pk>\d+)/add$", AddRecipeToMenuView.as_view(), name="add_recipe_to_menu"),
     url(r"^menu$", MenuRecipeInline.as_view(), name="menu"),
+    url(r"^menu/produce$", produce_all_recipes, name="menu-produce"),
 )
