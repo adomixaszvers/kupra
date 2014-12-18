@@ -35,7 +35,8 @@ class UnitOfMeasure(models.Model):
     name = models.CharField(
         max_length=20,
         verbose_name=u'Pavadinimas',
-        unique=True
+        unique=True,
+        error_messages={'unique': u'Toks matavimo vienetas jau yra.'},
         )
 
     class Meta:
