@@ -5,7 +5,7 @@
 {% for recipe in object_list %}
     <li>
 	    <h2>{{ recipe.name }}</h2>
-	    <p class="lead">{{ recipe.text }}</p>
+	    <p class="lead">{{ recipe.text|truncatechars:150 }}</p>
             <a href="{% url 'recipe_detail' recipe.pk%}">
 	    <img src="{{ recipe.img.url }}" class="img-responsive" class="img-thumbnail"/><br />
 	    </a>
