@@ -9,7 +9,8 @@ from kupra.models import KupraUser
 
 
 def home(request):
-    return render_to_response('home/home.html')
+    #return render_to_response('home/home.html')
+    return reverse_lazy('recipe_list')
 
 
 class SignupView(account.views.SignupView):
