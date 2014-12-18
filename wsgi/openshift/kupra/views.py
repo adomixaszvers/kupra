@@ -62,6 +62,15 @@ class RecipeListView(ListView):
 
 class RecipeDetailView(DetailView):
     model = Recipe
+    context_object_name = "recipe"
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(RecipeDetailView, self).get_context_data(**kwargs)
+        recipe = context['recipe']
+        # Add in a QuerySet of all the books
+        context['products'] = RecipeProduct.objects.filter(recipe=recipe)
+        return context
 
 
 class RecipeProductInline(InlineFormSet):
@@ -138,6 +147,7 @@ class RecipeUpdateView(LoginRequiredMixin,OwnerMixin,UpdateWithInlinesView):
     model = Recipe
     inlines = [RecipeProductInline, ]
     form_class = RecipeCreateForm
+    extra = 0
 
 
     def get_success_url(self):
@@ -154,7 +164,11 @@ class RecipeDeleteView(LoginRequiredMixin, OwnerMixin, DeleteView):
         try:
             return self.delete(request, *args, **kwargs)
         except ProtectedError:
-            return render_to_response('kupra/error.html', {'error': u'Receptas įtrauktas į valgiaraštį'})
+            return render_to_response(
+                'kupra/error.html',
+                {'error': u'Negalima, nes receptas įtrauktas į valgiaraštį'},
+                RequestContext(self.request),
+                )
 
 class AddRecipeToMenuView(LoginRequiredMixin, FormView):
     form_class = AddRecipeToMenuForm
@@ -210,7 +224,7 @@ def produce_recipe(request, recipe_pk):
             user_product.save()
         return render_to_response(
             'kupra/recipe_produced.html',
-            {},
+            {'recipe': recipe},
             RequestContext(request),
             )
     else:
@@ -301,3 +315,13 @@ class RecipeCommentView(LoginRequiredMixin, FormView):
                 )
         obj.save()
         return FormView.form_valid(self, form)
+
+
+class RecipeCommentListView(ListView):
+    model = RecipeComment
+    paginate_by = 20
+
+    def get_queryset(self):
+        recipe = get_object_or_404(Recipe, pk=self.kwargs['recipe_pk'])
+        comments = RecipeComment.objects.filter(recipe=recipe)
+        return comments

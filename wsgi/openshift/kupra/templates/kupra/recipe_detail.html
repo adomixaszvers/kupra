@@ -5,7 +5,18 @@ Receptas: {{ recipe.name }}
 {% block body %}
 <h1>Receptas</h1>
 	    <h2>{{ recipe.name }}</h2>
-	    {{ recipe.text }}
+	    <p>Aprašymas: {{ recipe.text }}</p>
+	    <p>Reikės: </p>
+	    <ul>
+	    {% for product in products%}
+	    <li>{{ product }}</p>
+	    {% endfor %}
+	    </ul>
+	    <p>Receptą parašė {{ recipe.user.username }} </p>
 	    <img src="{{ recipe.img.url }}" class="img-responsive" /><br />
 	    <p><a href="{% url 'add_recipe_to_menu' recipe.pk %}">Pridėti į valgiaraštį</a></p>
+	    {% if user == recipe.user %}
+	    <p><a href="{% url 'recipe_update' recipe.pk %}">Pekeisti receptą</a></p>
+	    <p><a href="{% url 'recipe_delete' recipe.pk %}">Ištrinti receptą</a></p>
+	    {% endif %}
 {% endblock %}

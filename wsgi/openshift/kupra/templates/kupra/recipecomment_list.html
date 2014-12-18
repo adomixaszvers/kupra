@@ -1,0 +1,21 @@
+{% extends "site_base.html" %}
+{% block body %}
+<h1>Komentarai</h1>
+<ul>
+{% for comment in object_list %}
+    <li>
+	    <h3>{{ comment.user.username }}</h3>
+	    <p class="lead">Komentaras:</p>
+	    <p>{{ comment.comment }}</p>
+            <p>Įvertinimas: {{ comment.score }}</p>
+    </li>
+{% empty %}
+    <li>Dar komentarų nėra.</li>
+{% endfor %}
+</ul>
+{% load bootstrap_pagination %}
+{% bootstrap_paginate page_obj %}
+{% endblock %}
+{% block head_title %}
+Komentarai
+{% endblock %}

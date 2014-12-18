@@ -1,4 +1,5 @@
 {% extends 'site_base.html' %}
 {% block body %}
 <p>Patiekalas sėkmingai paruoštas.</p>
+<p><a href="{% url 'recipe_comment' recipe.pk %}">Įvertinti receptą</a></p>
 {% endblock %}
