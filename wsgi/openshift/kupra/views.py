@@ -10,6 +10,7 @@ from forms import (
     AddRecipeToMenuForm,
     MenuForm,
     RecipeCommentForm,
+    UserProductForm,
     )
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
@@ -23,6 +24,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.template import RequestContext
 from collections import defaultdict
+from django.forms.models import inlineformset_factory
 
 
 # Create your views here.
@@ -188,6 +190,7 @@ class MenuRecipeInline(LoginRequiredMixin, InlineFormSetView):
     template_name = 'kupra/menu.html'
     form_class = MenuForm
     extra = 0
+
     def get_object(self):
         return get_object_or_404(User, pk=self.request.user.pk)
 
@@ -325,3 +328,29 @@ class RecipeCommentListView(ListView):
         recipe = get_object_or_404(Recipe, pk=self.kwargs['recipe_pk'])
         comments = RecipeComment.objects.filter(recipe=recipe)
         return comments
+
+
+def manage_fridge(request):
+    UserProductFormSet = inlineformset_factory(
+        User,
+        UserProduct,
+        form=UserProductForm,
+        extra=0,
+        )
+    if request.method == 'POST':
+        formset = UserProductFormSet(
+            request.POST,
+            request.FILES,
+            instance=request.user)
+        if formset.is_valid():
+            products = formset.save(commit=False)
+            for product in products:
+                product.user = request.user
+                product.save()
+    else:
+        formset = UserProductFormSet(
+            instance=request.user
+            )
+    return render_to_response("kupra/fridge_form.html", {
+        "formset": formset,
+    }, RequestContext(request))

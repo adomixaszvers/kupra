@@ -75,6 +75,38 @@ class UserProduct(Product):
         verbose_name_plural = u'Vartotojo produktai'
 
 
+@receiver(post_save, sender=UserProduct)
+@transaction.atomic
+def user_product_unique(sender, **kwargs):
+    if not kwargs.get('created'):
+        return
+    product = kwargs.get('instance')
+    name = product.name
+    user = product.user
+    unit = product.unit
+    q = UserProduct.objects.filter(name=name, user=user, unit=unit)
+    if q.count() <= 1:
+        return
+    quantity = q.aggregate(models.Sum('quantity')).values()[0]
+    if q.count() == 0:
+        return
+    product = q.first()
+    q = q.exclude(pk=product.pk)
+    q.delete()
+    product.quantity = quantity
+    product.save()
+    return
+
+
+@receiver(post_save, sender=UserProduct)
+def recipe_product_zero(sender, **kwargs):
+    product = kwargs['instance']
+    if product.quantity > 0:
+        return
+    else:
+        product.delete()
+
+
 class RecipeProduct(Product):
     recipe = models.ForeignKey('Recipe', verbose_name=u'Receptas')
 

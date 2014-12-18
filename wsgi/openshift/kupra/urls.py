@@ -13,6 +13,7 @@ from views import (
     produce_all_recipes,
     RecipeCommentView,
     RecipeCommentListView,
+    manage_fridge,
     )
 urlpatterns = patterns('',
     # Examples:
@@ -25,6 +26,7 @@ urlpatterns = patterns('',
     url(r"^recipe/(?P<recipe_pk>\d+)/comment$", RecipeCommentView.as_view(), name="recipe_comment"),
     url(r"^recipe/(?P<recipe_pk>\d+)/comments$", RecipeCommentListView.as_view(), name="recipe_comments"),
     url(r"^menu/(?P<pk>\d+)/add$", AddRecipeToMenuView.as_view(), name="add_recipe_to_menu"),
+    url(r"^fridge$", manage_fridge, name="fridge"),
     url(r"^menu$", MenuRecipeInline.as_view(), name="menu"),
     url(r"^menu/produce$", produce_all_recipes, name="menu-produce"),
 )

@@ -1,5 +1,5 @@
 #-*- encoding: utf-8 -*-
-from models import Recipe, RecipeProduct, MenuRecipe, RecipeComment
+from models import Recipe, RecipeProduct, MenuRecipe, RecipeComment, UserProduct
 from django import forms
 from django.forms.models import inlineformset_factory
 from datetimewidget.widgets import DateTimeWidget
@@ -49,3 +49,9 @@ class RecipeCommentForm(forms.ModelForm):
     class Meta:
         model = RecipeComment
         fields = ['score', 'comment']
+
+
+class UserProductForm(forms.ModelForm):
+    class Meta:
+        model = UserProduct
+        exclude = ['user', ]
