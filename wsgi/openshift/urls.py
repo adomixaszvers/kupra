@@ -12,7 +12,7 @@ import kupra.urls
 
 urlpatterns = patterns('',
     # Examples:
-    url(r"^$", TemplateView.as_view(template_name="home/home.html"), name="home"),
+    url(r"^$", views.home, name="home"),
     url(r"^account/signup/$", views.SignupView.as_view(), name="account_signup"),
     url(r"^account/private/$", kupra.views.KupraUserUpdateView.as_view(), name="account_private"),
     # url(r'^openshift/', include('openshift.foo.urls')),

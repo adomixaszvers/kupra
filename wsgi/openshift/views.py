@@ -1,5 +1,5 @@
 import os
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render_to_response, render, redirect
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -10,7 +10,7 @@ from kupra.models import KupraUser
 
 def home(request):
     #return render_to_response('home/home.html')
-    return reverse_lazy('recipe_list')
+    return redirect('recipe_list')
 
 
 class SignupView(account.views.SignupView):
