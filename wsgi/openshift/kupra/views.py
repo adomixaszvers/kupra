@@ -359,4 +359,7 @@ def manage_fridge(request):
 
 class UnitCreateView(LoginRequiredMixin, CreateView):
     model = UnitOfMeasure
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('unit_list')
+
+class UnitListView(LoginRequiredMixin, ListView):
+    model = UnitOfMeasure
