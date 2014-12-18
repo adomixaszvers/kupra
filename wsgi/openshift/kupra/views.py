@@ -330,6 +330,7 @@ class RecipeCommentListView(ListView):
         return comments
 
 
+@login_required
 def manage_fridge(request):
     UserProductFormSet = inlineformset_factory(
         User,
@@ -356,6 +357,6 @@ def manage_fridge(request):
     }, RequestContext(request))
 
 
-class UnitCreateView(CreateView):
+class UnitCreateView(LoginRequiredMixin, CreateView):
     model = UnitOfMeasure
     success_url = reverse_lazy('home')
