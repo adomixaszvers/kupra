@@ -159,6 +159,11 @@ class RecipeComment(models.Model):
         verbose_name = u'Recepto komentaras'
         verbose_name_plural = u'Recepto komentarai'
 
+    def __unicode__(self):
+        score = self.score
+        user = self.user
+        return u"Vartotojas: {}, įvertinimas {}".format(user, score)
+
 
 class Recipe(models.Model):
     name = models.CharField(max_length=20, verbose_name=u'Pavadinimas')
@@ -208,3 +213,8 @@ class MenuRecipe(models.Model):
     class Meta:
         verbose_name = u'Valgiaraščio receptas'
         verbose_name_plural = u'Valgiaraščio receptai'
+
+    def __unicode__(self):
+        recipe = self.recipe.name
+        date = self.date
+        return u"Receptas: {}\nData: {}".format(recipe, date)
