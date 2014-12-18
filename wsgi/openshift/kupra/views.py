@@ -25,6 +25,7 @@ from django.db.models import Q
 from django.template import RequestContext
 from collections import defaultdict
 from django.forms.models import inlineformset_factory
+from django.core.exceptions import ValidationError
 
 
 # Create your views here.
@@ -363,3 +364,16 @@ class UnitCreateView(LoginRequiredMixin, CreateView):
 
 class UnitListView(LoginRequiredMixin, ListView):
     model = UnitOfMeasure
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        try:
+            self.object.full_clean()
+        except ValidationError:
+            #raise ValidationError("No can do, you have used this name before!")
+            #return self.form_invalid(form)
+            from django.forms.util import ErrorList
+            form._errors["name"] = ErrorList([u"Toks matavimo vienetas jau yra."])
+            return CreateView.form_invalid(self, form)
+
+        return CreateView.form_valid(self, form)

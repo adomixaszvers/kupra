@@ -32,7 +32,11 @@ class KupraUser(models.Model):
 
 
 class UnitOfMeasure(models.Model):
-    name = models.CharField(max_length=20, verbose_name=u'Pavadinimas')
+    name = models.CharField(
+        max_length=20,
+        verbose_name=u'Pavadinimas',
+        unique=True
+        )
 
     class Meta:
         verbose_name = u'Matavimo vienetas'
