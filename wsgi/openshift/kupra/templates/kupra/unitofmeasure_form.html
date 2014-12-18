@@ -1,0 +1,8 @@
+{% extends 'site_base.html' %}
+{% block body %}
+{% load bootstrap %}
+<form  method="post">{% csrf_token %}
+{{ form|bootstrap }}
+<input type="submit" value="Komentuoti" />
+</form>
+{% endblock %}

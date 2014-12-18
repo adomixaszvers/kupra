@@ -14,6 +14,7 @@ from views import (
     RecipeCommentView,
     RecipeCommentListView,
     manage_fridge,
+    UnitCreateView,
     )
 urlpatterns = patterns('',
     # Examples:
@@ -29,4 +30,5 @@ urlpatterns = patterns('',
     url(r"^fridge$", manage_fridge, name="fridge"),
     url(r"^menu$", MenuRecipeInline.as_view(), name="menu"),
     url(r"^menu/produce$", produce_all_recipes, name="menu-produce"),
+    url(r"^unit/create$", UnitCreateView.as_view(), name="unit_create"),
 )

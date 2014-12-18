@@ -354,3 +354,8 @@ def manage_fridge(request):
     return render_to_response("kupra/fridge_form.html", {
         "formset": formset,
     }, RequestContext(request))
+
+
+class UnitCreateView(CreateView):
+    model = UnitOfMeasure
+    success_url = reverse_lazy('home')
