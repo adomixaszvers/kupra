@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, render_to_response
+from django.shortcuts import HttpResponseRedirect, get_object_or_404, render_to_response
 from django.core.urlresolvers import reverse_lazy
 from django.utils.decorators import method_decorator
 from models import Recipe, KupraUser, UserProduct, RecipeComment
@@ -12,12 +12,9 @@ from forms import (
     RecipeCommentForm,
     UserProductForm,
     )
-from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
-from extra_views import InlineFormSet, CreateWithInlinesView, UpdateWithInlinesView, InlineFormSetView
-from extra_views.generic import GenericInlineFormSet
+from extra_views import InlineFormSet, UpdateWithInlinesView, InlineFormSetView
 from models import RecipeProduct, MenuRecipe, UnitOfMeasure
-import pdb
 from django.db.models import ProtectedError
 from django.views.generic import FormView
 from django.contrib.auth.models import User
@@ -25,7 +22,6 @@ from django.db.models import Q
 from django.template import RequestContext
 from collections import defaultdict
 from django.forms.models import inlineformset_factory
-from django.core.exceptions import ValidationError
 
 
 # Create your views here.

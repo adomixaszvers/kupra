@@ -104,7 +104,7 @@ def user_product_unique(sender, **kwargs):
 
 
 @receiver(post_save, sender=UserProduct)
-def recipe_product_zero(sender, **kwargs):
+def user_product_zero(sender, **kwargs):
     product = kwargs['instance']
     if product.quantity > 0:
         return

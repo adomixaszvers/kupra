@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 import forms
 import account.views
 from kupra.models import KupraUser
+from django.template import RequestContext
 
 
 def home(request):
