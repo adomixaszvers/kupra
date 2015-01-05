@@ -9,6 +9,7 @@ Valgiaraštis
 <p>TODO</p>
 <form method="POST" enctype="multipart/form-data">
 {% csrf_token %}
+{{ formset.management_form }}
 {% for form in formset %}
     <p><a href="{% url 'recipe_detail' form.instance.recipe.pk %}"><b>Receptas:</b> {{ form.instance.recipe }}</a></p>
     {{ form|bootstrap }}
