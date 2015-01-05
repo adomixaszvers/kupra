@@ -11,8 +11,14 @@ from django.db import transaction
 
 class KupraUserManager(models.Manager):
 
-    def create_kuprauser(self, user, img, address, info):
-        kuprauser = self.create(user=user, img=img, address=address, info=info)
+    def create_kuprauser(self, user, img, address, info, nickname):
+        kuprauser = self.create(
+            user=user,
+            img=img,
+            address=address,
+            info=info,
+            nickname=nickname,
+            )
         return kuprauser
 
 
@@ -24,6 +30,10 @@ class KupraUser(models.Model):
     )
     address = models.TextField(verbose_name=u"Adresas")
     info = models.TextField(verbose_name=u"Aprašymas")
+    nickname = models.CharField(
+        verbose_name=u"Slapyvardis",
+        unique=True,
+        max_length=20)
     objects = KupraUserManager()
 
     class Meta:
@@ -118,11 +128,11 @@ class RecipeProduct(Product):
     class Meta:
         verbose_name = u'Recepto ingredientas'
         verbose_name_plural = u'Recepto ingredientai'
-        
-        
+
+
 class MissingProduct(Product):
     user = models.ForeignKey(User, verbose_name=u'Vartotojas')
-    
+
     class Meta:
         verbose_name = u'Trūkstamas produktas'
         verbose_name_plural = u'Trūkstami produktai'

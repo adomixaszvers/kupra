@@ -4,6 +4,7 @@ import account.forms
 
 
 class SignupForm(account.forms.SignupForm):
+    nickname = forms.CharField(label="Slapyvardis", widget=forms.TextInput)
     first_name = forms.CharField(max_length=20, label="Vardas")
     last_name = forms.CharField(max_length=20, label="Pavardė")
     img = forms.ImageField(label="Jūsų nuotrauka")

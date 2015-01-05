@@ -69,6 +69,7 @@ class RecipeDetailView(DetailView):
         recipe = context['recipe']
         # Add in a QuerySet of all the books
         context['products'] = RecipeProduct.objects.filter(recipe=recipe)
+        context['required_products'] = missing_products(self.request.user, (recipe,))
         return context
 
 
@@ -287,6 +288,47 @@ def produce_all_recipes(request):
             {'products': required},
             RequestContext(request),
             )
+
+
+def missing_products(user, recipes):
+    quantities = defaultdict(dict)
+    for recipe in recipes:
+        for product in recipe.recipeproduct_set.all():
+            name = product.name
+            unit = product.unit.pk
+            quantity = product.quantity
+            if name in quantities:
+                if unit in quantities[name]:
+                    quantities[name][unit] = quantities[name][unit] + quantity
+            else:
+                quantities[name][unit] = quantity
+    user_products = UserProduct.objects.filter(user=user)
+    is_enough = True
+    required = list()
+    to_save = list()
+    for name in quantities.keys():
+        for unit in quantities[name].keys():
+            quantity = quantities[name][unit]
+            try:
+                unitobj = UnitOfMeasure.objects.get(pk=unit)
+                user_product = user_products.get(name=name, unit=unitobj)
+                user_quantity = user_product.quantity
+                user_product.quantity -= quantity
+                to_save.append(user_product)
+            except UserProduct.DoesNotExist:
+                user_quantity = 0
+            if user_quantity < quantity:
+                is_enough = False
+                required.append(
+                    {'name': name,
+                    'unit': unitobj.name,
+                    'quantity': quantity - user_quantity
+                    })
+                continue
+    if is_enough:
+        return None
+    else:
+        return required
 
 
 class RecipeCommentView(LoginRequiredMixin, FormView):

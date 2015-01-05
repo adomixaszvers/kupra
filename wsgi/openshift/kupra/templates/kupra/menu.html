@@ -12,11 +12,8 @@ Valgiaraštis
 <form method="POST" enctype="multipart/form-data">
 {% csrf_token %}
 {% for form in formset %}
-    <p><b>Receptas:</b> {{ form.instance.recipe }}</p>
+    <p><a href="{% url 'recipe_detail' form.instance.recipe.pk %}"><b>Receptas:</b> {{ form.instance.recipe }}</a></p>
     {{ form|bootstrap }}
-    <p>
-    <a href="{% url 'recipe_produce' form.instance.recipe.pk %}">Pagaminti</a>
-    </p>
     <br />
 {% endfor %}
 <button type="submit" class="btn btn-default">Pakeisti</button>

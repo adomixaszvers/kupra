@@ -29,6 +29,13 @@ class SignupView(account.views.SignupView):
         img = form.cleaned_data["img"]
         address = form.cleaned_data["address"]
         info = form.cleaned_data["info"]
-        kuprauser = KupraUser.objects.create_kuprauser(user, img, address, info)
+        nickname = form.cleaned_data["nickname"]
+        kuprauser = KupraUser.objects.create_kuprauser(
+            user,
+            img,
+            address,
+            info,
+            nickname,
+            )
         user.kuprauser = kuprauser
         user.save()
