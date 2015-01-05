@@ -33,7 +33,7 @@ class AddRecipeToMenuForm(forms.ModelForm):
 class MenuForm(forms.ModelForm):
     class Meta:
         model = MenuRecipe
-        fields = ['date', 'recipe']
+        fields = ['date', ]
         dateTimeOptions = {
             'startDate': datetime.today(),
             'bootstrap_version': 2,
