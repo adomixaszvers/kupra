@@ -10,7 +10,6 @@ from views import (
     AddRecipeToMenuView,
     MenuRecipeInline,
     produce_recipe,
-    produce_all_recipes,
     RecipeCommentView,
     RecipeCommentListView,
     manage_fridge,
