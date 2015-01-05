@@ -1,6 +1,7 @@
 {% extends "site_base.html" %}
 {% block body %}
 <h1>Receptai</h1>
+<p><a href="{% url 'recipe_create'%}">Sukurti savo receptą</a></p>
 <ul>
 {% for recipe in object_list %}
     <li>
