@@ -118,6 +118,14 @@ class RecipeProduct(Product):
     class Meta:
         verbose_name = u'Recepto ingredientas'
         verbose_name_plural = u'Recepto ingredientai'
+        
+        
+class MissingProduct(Product):
+    user = models.ForeignKey(User, verbose_name=u'Vartotojas')
+    
+    class Meta:
+        verbose_name = u'Trūkstamas produktas'
+        verbose_name_plural = u'Trūkstami produktai'
 
 
 @receiver(post_save, sender=RecipeProduct)
