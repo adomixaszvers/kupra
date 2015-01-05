@@ -6,9 +6,7 @@ Valgiaraštis
 {% load formset_tags %}
 {% load bootstrap %}
 {% if formset|length != 0 %}
-<p>
-<a href="{% url 'menu_produce' %}">Pagaminti viską</a>
-</p>
+<p>TODO</p>
 <form method="POST" enctype="multipart/form-data">
 {% csrf_token %}
 {% for form in formset %}

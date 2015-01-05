@@ -30,7 +30,6 @@ urlpatterns = patterns('',
     url(r"^menu/(?P<pk>\d+)/add$", AddRecipeToMenuView.as_view(), name="add_recipe_to_menu"),
     url(r"^fridge$", manage_fridge, name="fridge"),
     url(r"^menu$", MenuRecipeInline.as_view(), name="menu"),
-    url(r"^menu/produce$", produce_all_recipes, name="menu_produce"),
     url(r"^unit/create$", UnitCreateView.as_view(), name="unit_create"),
     url(r"^units$", UnitListView.as_view(), name="unit_list"),
 )

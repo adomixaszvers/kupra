@@ -236,60 +236,6 @@ def produce_recipe(request, recipe_pk):
             )
 
 
-@login_required
-def produce_all_recipes(request):
-    menu_recipes = request.user.menurecipe_set.all()
-    quantities = defaultdict(dict)
-    for menu_recipe in menu_recipes:
-        recipe = menu_recipe.recipe
-        for product in recipe.recipeproduct_set.all():
-            name = product.name
-            unit = product.unit.pk
-            quantity = product.quantity
-            if name in quantities:
-                if unit in quantities[name]:
-                    quantities[name][unit] = quantities[name][unit] + quantity
-            else:
-                quantities[name][unit] = quantity
-    user_products = UserProduct.objects.filter(user=request.user)
-    is_enough = True
-    required = list()
-    to_save = list()
-    for name in quantities.keys():
-        for unit in quantities[name].keys():
-            quantity = quantities[name][unit]
-            try:
-                unitobj = UnitOfMeasure.objects.get(pk=unit)
-                user_product = user_products.get(name=name, unit=unitobj)
-                user_quantity = user_product.quantity
-                user_product.quantity -= quantity
-                to_save.append(user_product)
-            except UserProduct.DoesNotExist:
-                user_quantity = 0
-            if user_quantity < quantity:
-                is_enough = False
-                required.append(
-                    {'name': name,
-                    'unit': unitobj.name,
-                    'quantity': quantity - user_quantity
-                    })
-                continue
-    if is_enough:
-        for user_product in to_save:
-            user_product.save()
-        return render_to_response(
-            'kupra/recipe_produced.html',
-            {},
-            RequestContext(request),
-            )
-    else:
-        return render_to_response(
-            'kupra/recipe_required_products.html',
-            {'products': required},
-            RequestContext(request),
-            )
-
-
 def missing_products(user, recipes):
     quantities = defaultdict(dict)
     for recipe in recipes:
