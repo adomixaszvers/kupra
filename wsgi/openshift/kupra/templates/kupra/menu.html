@@ -6,13 +6,14 @@ Valgiaraštis
 {% load formset_tags %}
 {% load bootstrap %}
 {% if formset|length != 0 %}
-<p>TODO</p>
+<p><a href="{% url 'missing_menu_products' %}">Ar trūksta valgiaraščio produktų?</a></p>
 <form method="POST" enctype="multipart/form-data">
 {% csrf_token %}
 {{ formset.management_form }}
 {% for form in formset %}
     <p><a href="{% url 'recipe_detail' form.instance.recipe.pk %}"><b>Receptas:</b> {{ form.instance.recipe }}</a></p>
     {{ form|bootstrap }}
+    <p><a href="{% url 'could_produce_recipe' form.instance.pk %}">Ar galima pagaminti?</a></p>
     <br />
 {% endfor %}
 <button type="submit" class="btn btn-default">Pakeisti</button>

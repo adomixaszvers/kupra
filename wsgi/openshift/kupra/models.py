@@ -232,6 +232,7 @@ class MenuRecipe(models.Model):
         )
     date = models.DateTimeField(verbose_name=u'Data')
     user = models.ForeignKey(User, verbose_name=u'Vartotojas')
+    portions = models.IntegerField(verbose_name=u'Porcijų kiekis')
 
     class Meta:
         verbose_name = u'Valgiaraščio receptas'

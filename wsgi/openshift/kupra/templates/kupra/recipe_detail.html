@@ -6,6 +6,7 @@ Receptas: {{ recipe.name }}
 <h1>Receptas</h1>
 	    <h2>{{ recipe.name }}</h2>
 	    <p>Aprašymas: {{ recipe.text }}</p>
+	    <p>Porcijų: {{ recipe.portions }}</p>
 	    <p>Reikės: </p>
 	    <ul>
 	    {% for product in products%}
@@ -18,14 +19,5 @@ Receptas: {{ recipe.name }}
 	    {% if user == recipe.user %}
 	    <p><a href="{% url 'recipe_update' recipe.pk %}">Pekeisti receptą</a></p>
 	    <p><a href="{% url 'recipe_delete' recipe.pk %}">Ištrinti receptą</a></p>
-	    {% endif %}
-	    {% if required_products %}
-	    <p><b>Trūksta</b></p>
-	    <ul>
-	    {% for product in required_products %}
-	    <li>{{ product.name }}: {{ product.quantity }} {{ product.unit }}</li>
-	    {% endfor %}
-	    {% else %}
-	    <p><a href="{% url 'recipe_produce' recipe.pk %}">Pagaminti</a></p>
 	    {% endif %}
 {% endblock %}

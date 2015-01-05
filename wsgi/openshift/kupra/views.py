@@ -69,7 +69,6 @@ class RecipeDetailView(DetailView):
         recipe = context['recipe']
         # Add in a QuerySet of all the books
         context['products'] = RecipeProduct.objects.filter(recipe=recipe)
-        context['required_products'] = missing_products(self.request.user, (recipe,))
         return context
 
 
@@ -194,8 +193,10 @@ class MenuRecipeInline(LoginRequiredMixin, InlineFormSetView):
 
 
 @login_required
-def produce_recipe(request, recipe_pk):
-    recipe = get_object_or_404(Recipe, pk=recipe_pk)
+def produce_recipe(request, menu_recipe_pk):
+    menu_recipe = get_object_or_404(MenuRecipe, pk=menu_recipe_pk)
+    recipe = menu_recipe.recipe
+    ratio = menu_recipe.portions * 1.0 / recipe.portions
     user_products = request.user.userproduct_set.all()
     recipe_products = recipe.recipeproduct_set.all()
     is_enough = True
@@ -204,7 +205,7 @@ def produce_recipe(request, recipe_pk):
     for recipe_product in recipe_products:
         unit = recipe_product.unit
         name = recipe_product.name
-        quantity = recipe_product.quantity
+        quantity = recipe_product.quantity * ratio
         try:
             user_product = user_products.get(name=name, unit=unit)
             user_quantity = user_product.quantity
@@ -236,13 +237,15 @@ def produce_recipe(request, recipe_pk):
             )
 
 
-def missing_products(user, recipes):
+def missing_products(user, menu_recipes):
     quantities = defaultdict(dict)
-    for recipe in recipes:
+    for menu_recipe in menu_recipes:
+        recipe = menu_recipe.recipe
+        ratio = menu_recipe.portions * 1.0 / recipe.portions
         for product in recipe.recipeproduct_set.all():
             name = product.name
             unit = product.unit.pk
-            quantity = product.quantity
+            quantity = product.quantity * ratio
             if name in quantities:
                 if unit in quantities[name]:
                     quantities[name][unit] = quantities[name][unit] + quantity
@@ -275,6 +278,31 @@ def missing_products(user, recipes):
         return None
     else:
         return required
+
+
+def could_produce_recipe(request, menu_recipe_pk):
+    menu_recipe = get_object_or_404(MenuRecipe, pk=menu_recipe_pk)
+    required = missing_products(request.user, (menu_recipe,))
+    return render_to_response(
+            'kupra/recipe_required_products.html',
+            {
+                'products': required,
+                'menu_recipe': menu_recipe,
+            },
+            RequestContext(request),
+            )
+
+
+def missing_menu_products(request):
+    menu_recipes = MenuRecipe.objects.filter(user=request.user)
+    required = missing_products(request.user, menu_recipes)
+    return render_to_response(
+            'kupra/menu_required_products.html',
+            {
+                'products': required,
+            },
+            RequestContext(request),
+            )
 
 
 class RecipeCommentView(LoginRequiredMixin, FormView):

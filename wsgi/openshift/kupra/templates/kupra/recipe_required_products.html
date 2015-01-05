@@ -1,9 +1,13 @@
 {% extends 'site_base.html' %}
 {% block body %}
+{% if products %}
 <p>Jums trūksta šių produktų:</p>
 <ul>
 {% for product in products %}
-<li>{{ product.name }}: {{ product.quantity }} {{ product.unit }}</li>
+<li>{{ product.name }}: {{ product.quantity|floatformat }} {{ product.unit }}</li>
 {% endfor %}
 </ul>
+{% else %}
+<p>Galite pagaminti. <a href="{% url 'recipe_produce' menu_recipe.pk %}">Pagaminti</a></p>
+{% endif %}
 {% endblock %}
