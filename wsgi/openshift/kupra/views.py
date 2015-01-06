@@ -22,6 +22,7 @@ from django.db.models import Q
 from django.template import RequestContext
 from collections import defaultdict
 from django.forms.models import inlineformset_factory
+from django.db.models import Sum
 
 
 # Create your views here.
@@ -79,6 +80,40 @@ class LoginRequiredMixin(object):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
+
+
+class GalimaPagamintiView(LoginRequiredMixin, ListView):
+    model = Recipe
+    paginate_by = 10
+    template_name="kupra/recipe_list.html"
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Recipe.objects.filter(
+                Q(user=self.request.user) | Q(private=False)
+            )
+        recipes_to_exclude = list()
+        for recipe in queryset:
+            exclude = False
+            for product in recipe.recipeproduct_set.all():
+                user_products = UserProduct.objects.filter(
+                    user=user,
+                    name=product.name,
+                    unit=product.unit,
+                    )
+                if not user_products.exists:
+                    exclude = True
+                    break
+                user_quantity = user_products.aggregate(
+                    Sum('quantity')).values()[0]
+                if product.quantity > user_quantity:
+                    exclude = True
+                    break
+            if exclude:
+                recipes_to_exclude.append(recipe)
+        for recipe in recipes_to_exclude:
+            queryset = queryset.exclude(pk=recipe.pk)
+        return queryset
 
 
 class OwnerMixin(object):

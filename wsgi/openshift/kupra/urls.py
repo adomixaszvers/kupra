@@ -20,11 +20,13 @@ from views import (
     manage_missing_products,
     save_missing_products,
     add_missing_to_fridge,
+    GalimaPagamintiView,
     )
 urlpatterns = patterns('',
     # Examples:
     url(r"^recipe/create$", RecipeCreateView.as_view(), name="recipe_create"),
     url(r"^recipes$", RecipeListView.as_view(), name="recipe_list"),
+    url(r"^recipes/enough$", GalimaPagamintiView.as_view(), name="recipe_list_enough"),
     url(r"^recipe/(?P<pk>\d+)$", RecipeDetailView.as_view(), name="recipe_detail"),
     url(r"^recipe/(?P<pk>\d+)/update$", RecipeUpdateView.as_view(), name="recipe_update"),
     url(r"^recipe/(?P<pk>\d+)/delete$", RecipeDeleteView.as_view(), name="recipe_delete"),
