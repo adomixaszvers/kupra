@@ -21,6 +21,7 @@ from views import (
     save_missing_products,
     add_missing_to_fridge,
     GalimaPagamintiView,
+    user_list,
     )
 urlpatterns = patterns('',
     # Examples:
@@ -43,4 +44,5 @@ urlpatterns = patterns('',
     url(r"^missing$", manage_missing_products, name="missing_products"),
     url(r"^missing/save$", save_missing_products, name="save_missing_products"),
     url(r"^missing/add$", add_missing_to_fridge, name="add_missing_products"),
+    url(r"^users$", user_list, name="user_list"),
 )

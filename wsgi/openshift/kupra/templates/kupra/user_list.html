@@ -1,0 +1,6 @@
+{% extends 'site_base.html' %}
+{% block body %}
+{% for user in users %}
+<p>{{ user.kuprauser.nickname }}</p>
+{% endfor %}
+{% endblock %}

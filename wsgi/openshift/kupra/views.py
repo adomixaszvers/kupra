@@ -476,3 +476,11 @@ class UnitCreateView(LoginRequiredMixin, CreateView):
 
 class UnitListView(LoginRequiredMixin, ListView):
     model = UnitOfMeasure
+
+
+@login_required
+def user_list(request):
+    users = User.objects.all()
+    return render_to_response("kupra/user_list.html", {
+        "users": users,
+    }, RequestContext(request))
