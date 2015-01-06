@@ -1,0 +1,14 @@
+{% extends 'site_base.html' %}
+{% block body %}
+{% if products %}
+<p>Jums trūksta šių produktų:</p>
+<ul>
+{% for product in products %}
+<li>{{ product.name }}: {{ product.quantity|floatformat }} {{ product.unit }}</li>
+{% endfor %}
+</ul>
+<p><a href="{% url 'save_missing_products'%}">Išsaugoti sąrašą</a></p>
+{% else %}
+<p>Ne, netrūksta</p>
+{% endif %}
+{% endblock %}
