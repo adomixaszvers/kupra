@@ -17,6 +17,9 @@ from views import (
     UnitListView,
     could_produce_recipe,
     missing_menu_products,
+    manage_missing_products,
+    save_missing_products,
+    add_missing_to_fridge,
     )
 urlpatterns = patterns('',
     # Examples:
@@ -35,4 +38,7 @@ urlpatterns = patterns('',
     url(r"^menu$", MenuRecipeInline.as_view(), name="menu"),
     url(r"^unit/create$", UnitCreateView.as_view(), name="unit_create"),
     url(r"^units$", UnitListView.as_view(), name="unit_list"),
+    url(r"^missing$", manage_missing_products, name="missing_products"),
+    url(r"^missing/save$", save_missing_products, name="save_missing_products"),
+    url(r"^missing/add$", add_missing_to_fridge, name="add_missing_products"),
 )

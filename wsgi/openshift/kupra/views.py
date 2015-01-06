@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import HttpResponseRedirect, get_object_or_404, render_to_response
+from django.shortcuts import HttpResponseRedirect, get_object_or_404, render_to_response, redirect
 from django.core.urlresolvers import reverse_lazy
 from django.utils.decorators import method_decorator
-from models import Recipe, KupraUser, UserProduct, RecipeComment
+from models import Recipe, KupraUser, UserProduct, RecipeComment, MissingProduct
 from django.contrib.auth.decorators import login_required
 from forms import (
     RecipeCreateForm,
@@ -280,6 +280,7 @@ def missing_products(user, menu_recipes):
         return required
 
 
+@login_required
 def could_produce_recipe(request, menu_recipe_pk):
     menu_recipe = get_object_or_404(MenuRecipe, pk=menu_recipe_pk)
     required = missing_products(request.user, (menu_recipe,))
@@ -293,6 +294,7 @@ def could_produce_recipe(request, menu_recipe_pk):
             )
 
 
+@login_required
 def missing_menu_products(request):
     menu_recipes = MenuRecipe.objects.filter(user=request.user)
     required = missing_products(request.user, menu_recipes)
@@ -361,6 +363,8 @@ def manage_fridge(request):
             for product in products:
                 product.user = request.user
                 product.save()
+            for obj in formset.deleted_objects:
+                obj.delete()
     else:
         formset = UserProductFormSet(
             instance=request.user
@@ -368,6 +372,67 @@ def manage_fridge(request):
     return render_to_response("kupra/fridge_form.html", {
         "formset": formset,
     }, RequestContext(request))
+
+
+@login_required
+def save_missing_products(request):
+    menu_recipes = MenuRecipe.objects.filter(user=request.user)
+    required = missing_products(request.user, menu_recipes)
+    MissingProduct.objects.filter(user=request.user).delete()
+    for values in required:
+        unit = get_object_or_404(UnitOfMeasure, name=values['unit'])
+        missing_product = MissingProduct(
+            user=request.user,
+            name=values['name'],
+            unit=unit,
+            quantity=values['quantity'],
+            )
+        missing_product.save()
+    return redirect('missing_products')
+
+
+@login_required
+def manage_missing_products(request):
+    MissingProductFormSet = inlineformset_factory(
+        User,
+        MissingProduct,
+        form=UserProductForm,
+        extra=0,
+        )
+    if request.method == 'POST':
+        formset = MissingProductFormSet(
+            request.POST,
+            request.FILES,
+            instance=request.user)
+        if formset.is_valid():
+            products = formset.save(commit=False)
+            for product in products:
+                product.user = request.user
+                product.save()
+            for obj in formset.deleted_objects:
+                obj.delete()
+    else:
+        formset = MissingProductFormSet(
+            instance=request.user
+            )
+    return render_to_response("kupra/missing_form.html", {
+        "formset": formset,
+    }, RequestContext(request))
+
+
+@login_required
+def add_missing_to_fridge(request):
+    missing_products = MissingProduct.objects.filter(user=request.user)
+    for missing_product in missing_products:
+        user_product = UserProduct(
+            user=missing_product.user,
+            name=missing_product.name,
+            unit=missing_product.unit,
+            quantity=missing_product.quantity
+            )
+        user_product.save()
+    missing_products.delete()
+    return redirect('fridge')
 
 
 class UnitCreateView(LoginRequiredMixin, CreateView):
